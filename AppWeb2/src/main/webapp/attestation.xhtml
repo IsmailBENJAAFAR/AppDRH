@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<title>Attestation</title>
+	<link rel="stylesheet" href="bootstrap-4.0.0-dist/css/bootstrap.css" />
+	
+</h:head>
+
+<h:body class="bg-light">
+	<div class="container bg-light">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.xhtml">Home</a>
+                    </li>
+                    <c:if test="#{(userController.isAdmin()) || (userController.isChefDRH()) }">
+                        <li class="nav-item">
+                            <a class="nav-link" href="gcompte.xhtml">Gestion des Comptes</a>
+                        </li>
+                    	<li class="nav-item">
+                        	<a class="nav-link" href="gemployee.xhtml">Gestion des Encadarnts</a>
+                    	</li>
+                    </c:if>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gstage.xhtml">Gestion des Stages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gstagiere.xhtml">Gestion des Stagiaires</a>
+                    </li>
+                    <li class="nav-item ">
+        				<a class="nav-link" href="absence.xhtml">Absence</a>
+      				</li>
+                    <li class="nav-item  active">
+                        <a class="nav-link" href="attestation.xhtml">Attestation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mail.xhtml">Mail</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.xhtml">Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+		<div class="container bg-light">
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">Gestion des Attestations</h1>
+
+            <div class="d-flex justify-content-center">
+                <h:form style="width: 100%;">
+                    <h:message for="nom" class="alert-danger"></h:message>
+                    <h:message for="prenom" class="alert-danger"></h:message>
+                    
+                    <div class="text-center mx-auto" style="width: 60%;">
+                    <h:panelGrid columns="2" cellpadding="15" cellspacing="10">
+                        <h:outputText value="Stagiaire *" />
+                        <!--required="true" requiredMessage="ce champ est obligatoire"-->
+                        <h:selectOneMenu value="#{attestationController.idStagiere}" class="form-control" id="stagiere" required="true" requiredMessage="ce champ est obligatoire">
+                            	<f:selectItem itemValue="" itemLabel=""></f:selectItem>
+                            	<f:selectItems value="#{stagiereController.listeStagieres}" var="s" itemValue="#{s.id}" itemLabel="#{s.nom}"></f:selectItems>
+                        </h:selectOneMenu>
+                        <div class="text-right mt-3"  >
+                            <h:commandButton value="Telecharger document" action="#{attestationController.downloadAttestation}" class="btn btn-danger" style="width: 100%;" />
+                        </div>
+                    </h:panelGrid>
+                    </div>
+                </h:form>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+	</div>
+</h:body>
+</html>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <title>Gestion des Stages</title>
+    <link rel="stylesheet" href="bootstrap-4.0.0-dist/css/bootstrap.css"  />
+    <script>
+		function confirmer(){
+			return confirm("Etes vous sur de vouloire supprimer ce Satge ?")
+		}
+	</script>
+</h:head>
+
+<h:body class="bg-light">
+    <div class="container bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.xhtml">Home</a>
+                    </li>
+                    <c:if test="#{(userController.isAdmin()) || (userController.isChefDRH()) }">
+                        <li class="nav-item">
+                            <a class="nav-link" href="gcompte.xhtml">Gestion des Comptes</a>
+                        </li>
+                    	<li class="nav-item">
+                        	<a class="nav-link" href="gemployee.xhtml">Gestion des Encadarnts</a>
+                    	</li>
+                    </c:if>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="gstage.xhtml">Gestion des Stages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gstagiere.xhtml">Gestion des Stagiaires</a>
+                    </li>
+                    <li class="nav-item ">
+        				<a class="nav-link" href="absence.xhtml">Absence</a>
+      				</li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="attestation.xhtml">Attestation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mail.xhtml">Mail</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.xhtml">Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+            <c:if test="#{(userController.isAdmin()) || (userController.isChefDRH()) }">
+                <h1 class="text-center mb-4">Gestion des Stages</h1>
+                <h:form>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="sujet">Sujet</label>
+                            <h:inputText value="#{stageController.sujet}" class="form-control" id="sujet" required="true" requiredMessage="ce champ est obligatoire" />
+                        </div>
+                        <div class="form-group col-md-4">
+    								<label for="dateDebut">DateDebut</label>
+    							<h:inputText value="#{stageController.dateDebut}" class="form-control" id="dateDebut" required="true" requiredMessage="Ce champ est obligatoire" styleClass="form-control" >
+    								<f:convertDateTime pattern="dd/MM/yyyy" />
+    							</h:inputText>
+						</div>
+						<div class="form-group col-md-4">
+    								<label for="dateFin">DateFin</label>
+    							<h:inputText value="#{stageController.dateFin}" class="form-control" id="dateFin" required="true" requiredMessage="Ce champ est obligatoire" styleClass="form-control">
+    								<f:convertDateTime pattern="dd/MM/yyyy" />
+    							</h:inputText>
+						</div>
+						<h:column>
+							<h:message for="sujet" class="alert-danger"></h:message>
+							<h:message for="dateDebut" class="alert-danger"></h:message>	
+							<h:message for="dateFin" class="alert-danger" ></h:message>
+						</h:column>						
+                        <div class="form-group col-md-4">
+                            <label for="division">Division</label>
+                            <h:inputText value="#{stageController.division}" class="form-control" id="division" required="true" requiredMessage="ce champ est obligatoire" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="encadrant">Encadrant</label>
+                            <h:selectOneMenu value="#{stageController.idEncadrant}" class="form-control" id="encadrant" required="true" requiredMessage="ce champ est obligatoire">
+                            	<f:selectItem itemValue="" itemLabel=""></f:selectItem>
+                            	<f:selectItems value="#{encadrantController.listeEncadrants}" var="e" itemValue="#{e.id}" itemLabel="#{e.nom}"></f:selectItems>
+                            </h:selectOneMenu>
+                     </div>
+						<h:column>
+							<h:message for="division" class="alert-danger"></h:message>
+							<h:message for="encadrant" class="alert-danger"></h:message>
+						</h:column> 
+						
+						<h:panelGrid columns="2" cellpadding="15" cellspacing="5">
+                        <h:outputText value="Type *" />
+                        <h:selectOneRadio value="#{stageController.type}" required="true" requiredMessage="ce champ est obligatoire" >
+                            <f:selectItem itemValue="PFA" itemLabel="&nbsp;PFA&nbsp;" />
+                            <f:selectItem itemValue="PFE" itemLabel="&nbsp;PFE&nbsp;" />
+                            <f:selectItem itemValue="DOCTORAT" itemLabel="&nbsp;DOCTORAT&nbsp;" />
+                        </h:selectOneRadio>
+						</h:panelGrid>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <h:commandButton value="Enregistrer" action="#{stageController.save}" class="btn btn-danger mr-2"/>
+                    </div>
+                </h:form>
+            </c:if>
+            </div>
+        </div>
+
+	<h:form>
+		<h:dataTable value="#{stageController.listeStages}"  class="table" var="c">
+			<f:facet name="header">
+				<h:outputText class="row justify-content-center py-4 px-4 " value="Liste des Stages"></h:outputText>
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+			            <h:form>
+			                <h:panelGroup layout="block" styleClass="input-group mb-3">
+			                    <h:inputText value="#{stageController.recherche}" styleClass="form-control" placeholder="Rechercher..." aria-label="Rechercher" aria-describedby="basic-addon2" >
+			                    	<f:passThroughAttribute name="placeholder" value="Rechercher..." />
+                      			</h:inputText>
+			                    <h:panelGroup layout="block" styleClass="input-group-append">
+			                        <h:commandButton value="Rechercher" action="#{stageController.search}" styleClass="btn btn-outline-secondary" />
+			                    </h:panelGroup>
+			                </h:panelGroup>
+			            </h:form>
+					</div>
+				</div>				
+			</f:facet>
+			<h:column>
+				<f:facet name="header"><h:outputText value="Sujet"></h:outputText></f:facet>
+				<h:outputText value="#{c.sujet}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header"><h:outputText value=" DateDebut"></h:outputText></f:facet>
+				<h:outputText value="#{c.dateDebut}">
+					<f:convertDateTime dateStyle="full"/>
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header"><h:outputText value=" DateFin"></h:outputText></f:facet>
+				<h:outputText value="#{c.dateFin}">
+					<f:convertDateTime dateStyle="full"/>
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header"><h:outputText value="Division"></h:outputText></f:facet>
+				<h:outputText value="#{c.division}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header"><h:outputText value="Type"></h:outputText></f:facet>
+				<h:outputText value="#{c.type}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header"><h:outputText value="Etat"></h:outputText></f:facet>
+				<h:outputText value="#{c.etat}"></h:outputText>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header"><h:outputText value="Departement"></h:outputText></f:facet>
+				<h:outputText value="#{c.departement.nom}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header"><h:outputText value="Encadrant"></h:outputText></f:facet>
+				<h:outputText value="#{c.encadrant.nom}"></h:outputText>
+			</h:column>
+			<c:if test="#{(userController.isAdmin()) || (userController.isChefDRH()) }">
+			<h:column>
+				    
+					<h:panelGroup layout="block">
+						<h:commandButton value="Supprimer" onclick="return confirmer();" action="#{stageController.delete(c.id)}" class="btn btn-danger mr-2" />
+					</h:panelGroup>
+					<h:panelGroup layout="block">
+						<h:commandButton value="Modifier" action="#{stageController.update(c.id)}"  class="btn btn-warning" />
+					</h:panelGroup>
+			</h:column>
+			</c:if>
+		</h:dataTable>
+	</h:form>
+    </div>
+</h:body>
+</html>
