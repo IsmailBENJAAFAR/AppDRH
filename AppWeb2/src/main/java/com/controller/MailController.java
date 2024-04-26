@@ -6,9 +6,9 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class MailController {
-	private String fromMail = "Zinetsu00@gmail.com";
-	private String username = "Zinetsu00@gmail.com";
-	private String password = "gftw pbao iulj rwtg";
+	private String fromMail = "*************";
+	private String username = "*************";
+	private String password = "***********";
 	private String toMail;
 	private String subject;
 	private String massage;
