@@ -54,3 +54,42 @@ Ce projet vise à créer une application de gestion des stagiaires, conçue pour
 2. Autres fonctionnalités d'un Administrateur DRH et Chef DRH
 
 Ce projet vise à faciliter la gestion des stagiaires, des stages et des encadrants au sein de l'organisation en fournissant une plateforme centralisée et sécurisée pour gérer ces processus de manière efficace.
+
+# Architecture d'Application Java
+
+Ce projet est une démonstration d'une architecture d'application Java basée sur trois projets : un projet web, un projet EJB, et un projet d'application entreprise.
+
+## Projet Web
+
+Le projet web contient la logique de présentation de l'application. Il utilise JavaServer Faces (JSF) comme framework web et PrimeFaces pour les composants UI. Le projet est structuré selon le modèle MVC (Modèle-Vue-Contrôleur) avec des Managed Beans pour gérer la logique métier côté serveur.
+
+### Technologies utilisées :
+- JavaServer Faces (JSF)
+- PrimeFaces
+- Managed Beans
+
+## Projet EJB
+
+Le projet EJB contient la logique métier de l'application. Il utilise des Enterprise JavaBeans (EJB) pour encapsuler les services métier réutilisables. Les EJB sont déployés sur un serveur d'applications Java EE (WildFly) pour bénéficier des fonctionnalités de gestion des transactions, de sécurité, etc.
+
+### Technologies utilisées :
+- Enterprise JavaBeans (EJB)
+- Java Persistence API (JPA) pour la gestion des entités
+
+## Projet Application Entreprise
+
+Le projet Application Entreprise agit comme une couche d'orchestration et de coordination entre le projet web et le projet EJB. Il contient des classes utilitaires, des services d'infrastructure, des configurations, et des intercepteurs pour gérer les aspects transversaux de l'application.
+
+### Technologies utilisées :
+- Contexts and Dependency Injection (CDI) pour l'injection de dépendances
+- Autres services et utilitaires Java EE
+
+## Comment exécuter l'application
+
+1. Cloner le dépôt GitHub
+2. Importer les trois projets dans votre IDE
+3. Configurer et démarrer un serveur d'application Java EE (WildFly, GlassFish, etc.)
+4. Déployer les projets web et EJB sur le serveur
+5. Accéder à l'application via un navigateur web
+
+Ce projet est une démonstration et peut être étendu pour inclure plus de fonctionnalités et de composants. Pour plus d'informations, consultez la documentation de chaque projet.
